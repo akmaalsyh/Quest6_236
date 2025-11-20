@@ -1,6 +1,7 @@
 package com.example.quest6_236.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.example.quest6_236.model.Siswa
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
