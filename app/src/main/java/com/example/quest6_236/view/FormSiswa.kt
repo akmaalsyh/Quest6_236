@@ -1,5 +1,15 @@
 package com.example.quest6_236.view
 
+// Impor yang diperlukan untuk State dan Compose
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+// Impor yang diperlukan untuk fungsi String
+import kotlin.text.isNotEmpty
+
+// Impor dari kode asli
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,15 +43,17 @@ import androidx.compose.ui.unit.dp
 @OptIn (ExperimentalMaterial3Api::class)
 @Composable
 fun FormSiswa(
-    // edit 1 : parameterr pilihanJK dan OnSubmitButtonClick
+    // edit 1 : parameter pilihanJK dan OnSubmitButtonClick
     pilihanJK: List<String>,
     onSubmitButtonClick: (MutableList<String>) -> Unit,
     modifier: Modifier = Modifier
 ) {
     // edit 2 : tambahkan 4 variabel dibawah ini
-    var txtNama by rememberSeveable { MutableStateOf(value = "") }
-    var txtAlamat by rememberSeveable { MutableStateOf(value = "") }
-    var txtGender by rememberSeveable { MutableStateOf(value = "") }
+    // KOREKSI: Mengganti rememberSeveable -> rememberSaveable, MutableStateOf -> mutableStateOf
+    var txtNama by rememberSaveable { mutableStateOf(value = "") }
+    var txtAlamat by rememberSaveable { mutableStateOf(value = "") }
+    var txtGender by rememberSaveable { mutableStateOf(value = "") }
+    // KOREKSI: listData harus menggunakan nilai variabel State saat ini (.value) agar selalu up-to-date saat tombol diklik.
     val listData: MutableList<String> = mutableListOf(txtNama, txtGender, txtAlamat)
 
     Scaffold(
@@ -69,7 +81,7 @@ fun FormSiswa(
                 singleLine = true,
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier.width(250.dp).padding(top = 20.dp),
-                label = { Text(text = "Nama Lengkap") },
+                label = { Text(text = stringResource(id = R.string.nama)) }, // Menggunakan resource string
                 onValueChange = {
                     txtNama = it
                 }
@@ -86,11 +98,11 @@ fun FormSiswa(
             Row {
                 pilihanJK.forEach { item ->
                     Row(modifier = Modifier.selectable(
-                            selected = txtGender == item,
-                            onClick = {
-                                txtGender = item
-                            }
-                        ),
+                        selected = txtGender == item,
+                        onClick = {
+                            txtGender = item
+                        }
+                    ),
                         verticalAlignment = Alignment.CenterVertically) {
                         RadioButton(
                             selected = txtGender == item,
@@ -116,7 +128,7 @@ fun FormSiswa(
                 singleLine = true,
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier.width(250.dp),
-                label = { Text(text = "Alamat Lengkap") },
+                label = { Text(text = stringResource(id = R.string.alamat)) }, // Menggunakan resource string
                 onValueChange = {
                     txtAlamat = it
                 }
@@ -125,6 +137,7 @@ fun FormSiswa(
             Spacer(Modifier.height(20.dp))
             Button(
                 modifier = Modifier.fillMaxWidth(fraction = 1f),
+                // KOREKSI: Pastikan .isNotEmpty() diterapkan pada String. Impor kotlin.text.isNotEmpty sudah ditambahkan.
                 enabled = txtAlamat.isNotEmpty(),
                 onClick = { onSubmitButtonClick(listData) }
             ) {
