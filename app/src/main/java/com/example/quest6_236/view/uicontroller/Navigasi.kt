@@ -13,12 +13,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.quest6_236.model.DataJK
 import com.example.quest6_236.model.DataJK.JenisK
 import com.example.quest6_236.view.FormSiswa
 import com.example.quest6_236.view.TampilSiswa
 import com.example.quest6_236.viewmodel.SiswaViewModel
-
 
 enum class Navigasi {
     Formulir,
@@ -30,13 +28,14 @@ enum class Navigasi {
 @Composable
 fun SiswaApp(
     // edit 1: parameter viewModel
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     viewModel: SiswaViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     Scaffold { isiRuang ->
         // edit 2: Tambahkan variabel uiState
         val uiState by viewModel.statusUI.collectAsState()
+
         NavHost(
             navController = navController,
             startDestination = Navigasi.Formulir.name,
@@ -46,6 +45,7 @@ fun SiswaApp(
             composable(route = Navigasi.Formulir.name) {
                 // edit 3: Tambahkan variabel konteks
                 val konteks = LocalContext.current
+
                 FormSiswa(
                     // edit 4: parameter pilhanJK dan onSubmitButtonClicked
                     pilihanJK = JenisK.map { id -> konteks.resources.getString(id) },
@@ -58,7 +58,7 @@ fun SiswaApp(
             composable(route = Navigasi.Detail.name) {
                 TampilSiswa(
                     // edit 5: parameter statusUISiswa
-                    statusUISiswa = uiState.value,
+                    statusUISiswa = uiState,
                     onBackButtonClicked = { cancelAndBackToFormulir(navController) }
                 )
             }
