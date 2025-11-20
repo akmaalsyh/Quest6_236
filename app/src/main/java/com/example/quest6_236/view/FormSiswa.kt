@@ -1,15 +1,11 @@
 package com.example.quest6_236.view
 
-// Impor yang diperlukan untuk State dan Compose
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-// Impor yang diperlukan untuk fungsi String
 import kotlin.text.isNotEmpty
-
-// Impor dari kode asli
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -49,11 +45,11 @@ fun FormSiswa(
     modifier: Modifier = Modifier
 ) {
     // edit 2 : tambahkan 4 variabel dibawah ini
-    // KOREKSI: Mengganti rememberSeveable -> rememberSaveable, MutableStateOf -> mutableStateOf
+
     var txtNama by rememberSaveable { mutableStateOf(value = "") }
     var txtAlamat by rememberSaveable { mutableStateOf(value = "") }
     var txtGender by rememberSaveable { mutableStateOf(value = "") }
-    // KOREKSI: listData harus menggunakan nilai variabel State saat ini (.value) agar selalu up-to-date saat tombol diklik.
+
     val listData: MutableList<String> = mutableListOf(txtNama, txtGender, txtAlamat)
 
     Scaffold(
@@ -137,7 +133,7 @@ fun FormSiswa(
             Spacer(Modifier.height(20.dp))
             Button(
                 modifier = Modifier.fillMaxWidth(fraction = 1f),
-                // KOREKSI: Pastikan .isNotEmpty() diterapkan pada String. Impor kotlin.text.isNotEmpty sudah ditambahkan.
+
                 enabled = txtAlamat.isNotEmpty(),
                 onClick = { onSubmitButtonClick(listData) }
             ) {
