@@ -2,12 +2,16 @@ package com.example.quest6_236.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.selectable
 import com.example.quest6_236.R
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -16,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
@@ -27,15 +32,23 @@ fun FormSiswa(
     pilihanJK: List<String>,
     onSubmitButtonClick: (MutableList<String>) -> Unit,
     modifier: Modifier = Modifier
-){
+) {
     // edit 2 : tambahkan 4 variabel dibawah ini
-    var txtNama by rememberSeveable {MutableStateOf(value = "")}
-    var txtAlamat by rememberSeveable {MutableStateOf(value = "")}
-    var txtGender by rememberSeveable {MutableStateOf(value = "")}
+    var txtNama by rememberSeveable { MutableStateOf(value = "") }
+    var txtAlamat by rememberSeveable { MutableStateOf(value = "") }
+    var txtGender by rememberSeveable { MutableStateOf(value = "") }
     val listDate: MutableList<String> = mutableListOf(txtNama, txtGender, txtAlamat)
 
-    Scaffold (modifier = Modifier,
-        topBar = { TopAppbar(title = { Text(text = stringResource(id = R.string.app_name), color = Color.White)},
+    Scaffold(
+        modifier = Modifier,
+        topBar = {
+            TopAppbar(
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.app_name),
+                        color = Color.White
+                    )
+                },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = colorResource(id = R.color.purple_500))
             )
         }) { isiRuang ->
@@ -56,4 +69,34 @@ fun FormSiswa(
                     txtNama = it
                 }
             )
+
+            HorizontalDivider(
+                modifier = Modifier
+                    .padding(all = 12.dp)
+                    .width(250.dp),
+                thickness = dimensionResource(id = R.dimen.thickness_divider),
+                color = Color.Blue
+            )
+
+            Row {
+                pilihanJK.forEach { item ->
+                    Row(modifier = Modifier.selectable(
+                            selected = txtGender == item,
+                            onClick = {
+                                txtGender = item
+                            }
+                        ),
+                        verticalAlignment = Alignment.CenterVertically) {
+                        RadioButton(
+                            selected = txtGender == item,
+                            onClick = {
+                                txtGender = item
+                            }
+                        )
+                        Text(text = item)
+                    }
+                }
+            }
+        }
+    }
 }
