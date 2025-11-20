@@ -3,9 +3,13 @@ package com.example.quest6_236.view
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.material3.Button
 import com.example.quest6_236.R
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -37,7 +41,7 @@ fun FormSiswa(
     var txtNama by rememberSeveable { MutableStateOf(value = "") }
     var txtAlamat by rememberSeveable { MutableStateOf(value = "") }
     var txtGender by rememberSeveable { MutableStateOf(value = "") }
-    val listDate: MutableList<String> = mutableListOf(txtNama, txtGender, txtAlamat)
+    val listData: MutableList<String> = mutableListOf(txtNama, txtGender, txtAlamat)
 
     Scaffold(
         modifier = Modifier,
@@ -116,6 +120,15 @@ fun FormSiswa(
                     txtAlamat = it
                 }
             )
+
+            Spacer(Modifier.height(20.dp))
+            Button(
+                modifier = Modifier.fillMaxWidth(fraction = 1f),
+                enabled = txtAlamat.isNotEmpty(),
+                onClick = { onSubmitButtonClick(listData) }
+            ) {
+                Text(text = stringResource(id = R.string.submit))
+            }
         }
     }
 }
